@@ -1,0 +1,14 @@
+{
+    "name": "Astra-Explorer",
+    "version": "0.1.0",
+	"factorio_version": "2.0",
+	"title": "Astra Explorer",
+    "author": "Aleoin",
+    "dependencies": [
+         "base >= 2.0.28",
+         "space-age >= 2.0.28",
+         "Astra-Asteroids >= 0.1.0",
+         "? any-planet-start"
+        ],
+    "description": "Sets a space only start on a new asteroid field."
+}
