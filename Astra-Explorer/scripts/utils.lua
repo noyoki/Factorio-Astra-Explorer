@@ -5,7 +5,7 @@ AstraFunctions.Print = function(text)
 end
 
 AstraFunctions.CreatePlatform = function(location)
-    local platform = game.forces.player.create_space_platform { planet = "nauvis", starter_pack = "space-platform-starter-pack" }
+    local platform = game.forces.player.create_space_platform { planet = "the-void", starter_pack = "space-platform-starter-pack" }
     platform.apply_starter_pack()
     platform.hub.insert({ name = "crusher", count = 6 })
     platform.hub.insert({ name = "asteroid-collector", count = 6 })
