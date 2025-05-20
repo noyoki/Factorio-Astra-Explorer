@@ -46,7 +46,6 @@ data:extend({
         orientation = 0.45,
         magnitude = 1.0,
         label_orientation = 0.15,
-        asteroid_spawn_influence = 1,
         solar_power_in_space = 3.0,
         asteroid_spawn_influence = 2,
         asteroid_spawn_definitions = shattered_asteroids
