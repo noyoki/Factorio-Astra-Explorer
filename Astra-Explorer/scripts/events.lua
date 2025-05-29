@@ -1,4 +1,10 @@
 
+
+local function findNonCollision(player)
+    local position = player.physical_surface.find_non_colliding_position("character", player.physical_position, 5, 0.2) or { 4.69, 4.69 }
+    return position
+end
+
 local function StartGame()
 
     if remote.interfaces.freeplay then
@@ -9,8 +15,6 @@ local function StartGame()
     end
     
     local force = game.forces.player
-    force.technologies["rocket-silo"].researched = true
-    force.technologies["advanced-asteroid-processing"].researched = true
     force.technologies["space-platform"].researched = true
     force.unlock_space_platforms()
     force.unlock_space_location("shattered-tanker")
@@ -28,7 +32,9 @@ local function StartPlayer(player_index)
     platform.name = playername.. "'s Remnant"
     storage.platform[playername] = platform
 
-    player.teleport({0,1}, storage.platform[playername].surface.name)
+    local position = findNonCollision(player)
+    player.teleport(position, storage.platform[playername].surface.name)
+    player.clear_items_inside()
 end
 
 script.on_event(defines.events.on_player_created, function(e)
@@ -71,5 +77,20 @@ script.on_event(defines.events.on_gui_opened, function(event)
     if (event.entity == nil) then return end
     if (event.entity.type ~= "rocket-silo" ) then return end
     AstraInterface.on_gui_open(event)
+end)
+
+script.on_event("astra_leave_hub",function(event)
+    local player = game.players[event.player_index]
+    if player.controller_type == defines.controllers.remote
+    then
+        if not player.hub then
+            return
+        end
+        player.leave_space_platform()
+        player.set_controller { type = player.physical_controller_type, character = player.character }
+
+        local position = findNonCollision(player)
+        player.teleport(position)
+    end
 end)
 
