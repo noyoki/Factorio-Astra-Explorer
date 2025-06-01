@@ -3,7 +3,7 @@ local crusher_entity = table.deepcopy(data.raw["assembling-machine"]["crusher"])
 crusher_entity.name="astra-simple-crusher"
 crusher_entity.icons = {{icon = "__space-age__/graphics/icons/crusher.png", tint = {r=.27,g=.12}}}
 crusher_entity.crafting_speed = .5
-crusher_entity.energy_usage = "30kW"
+crusher_entity.energy_usage = "300kW"
 crusher_entity.allowed_effects = {}
 crusher_entity.module_slots = 0
 crusher_entity.minable.results = {{type="item", name="astra-simple-crusher",amount=1}}

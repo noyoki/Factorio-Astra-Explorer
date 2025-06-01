@@ -21,7 +21,7 @@ oilstone.stack_size = 50
 oilstone.icons = {{icon = "__base__/graphics/icons/solid-fuel.png", tint = {0,0,0,1} }}
 oilstone.fuel_value =  "0J"
 oilstone.fuel_category = nil
-oilstone.spoil_tickets = 60*300
+oilstone.spoil_ticks = 60*300
 oilstone.subgroup = "space-material"
 oilstone.fuel_acceleration_multiplier = nil
 oilstone.fuel_top_speed_multiplier = nil

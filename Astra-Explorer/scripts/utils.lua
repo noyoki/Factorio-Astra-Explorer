@@ -8,6 +8,13 @@ AstraFunctions.Print = function(text)
     game.print(text)
 end
 
+AstraFunctions.CreatePlatform = function(name,location,pack)
+  local platform = game.forces.player.create_space_platform { planet = "astra-void", starter_pack = pack,name=name }
+  platform.apply_starter_pack()
+  platform.space_location = location
+  return platform
+end
+
 AstraFunctions.CreatePlatform = function(location)
     local platform = game.forces.player.create_space_platform { planet = "astra-void", starter_pack = "space-platform-starter-pack" }
     platform.apply_starter_pack()
