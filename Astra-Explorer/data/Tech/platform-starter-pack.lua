@@ -8,13 +8,12 @@ local function GenerateTiles()
             table.insert(tiles,tile)
         end
     end
+    return tiles
 end
 
 --add missing recipes/items
-local remnant = table.deepcopy(data.raw.item["space-platform-starter-pack"])
+local remnant = table.deepcopy(data.raw["space-platform-starter-pack"]["space-platform-starter-pack"])
 remnant.name = "astra-remnant-pack"
-remnant.stack_size = 1
-remnant.icons = {{icon = "__space-age__/graphics/icons/space-platform-starter-pack", tint = {r=.05,g=.05,b=.05} }}
 remnant.tiles = GenerateTiles()
 remnant.initial_items = {
 {name="space-platform-foundation",type="item",amount = 500},
@@ -28,3 +27,4 @@ remnant.initial_items = {
 {name="efficiency-module-2",type="item",amount = 6},
 {name="transport-belt",type="item",amount = 40}
 }
+data:extend({remnant})

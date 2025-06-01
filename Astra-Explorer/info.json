@@ -12,6 +12,8 @@
         "atan-nuclear-science >= 0.3.3",
         "? any-planet-start >= 1.1.12",
         "? slp-dyson-sphere-reworked >= 1.0.2",
+        "? planet-hopper >= 2.3.5",
+        "? orbital-transfer >=0.2.3",
         "Astra-Asteroids >= 0.1.0"
         ],
     "description": "Sets a space only start on a new asteroid field."

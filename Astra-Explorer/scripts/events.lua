@@ -22,19 +22,17 @@ local function StartGame()
 
     force.lock_space_location("nauvis")
 
+    local platform = AstraFunctions.CreatePlatform("Remnant","astra-shattered-tanker","astra-remnant-pack" )
+    storage.Remnant = platform
+
     if (storage.platform == nil) then storage.platform = {} end
 end
 
 local function StartPlayer(player_index)
     local player = game.players[player_index]
-    local playername = player.name
-
-    local platform = AstraFunctions.CreatePlatform("astra-shattered-tanker")
-    platform.name = playername.. "'s Remnant"
-    storage.platform[playername] = platform
 
     local position = findNonCollision(player)
-    player.teleport(position, storage.platform[playername].surface.name)
+    player.teleport({5,5}, storage.Remnant.surface.name)
     player.clear_items_inside()
 end
 

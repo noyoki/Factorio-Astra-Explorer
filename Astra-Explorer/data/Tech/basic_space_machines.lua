@@ -7,13 +7,12 @@ crusher_entity.energy_usage = "300kW"
 crusher_entity.allowed_effects = {}
 crusher_entity.module_slots = 0
 crusher_entity.minable.results = {{type="item", name="astra-simple-crusher",amount=1}}
+crusher_entity.color = {r=.27,g=.12}
 
 local crusher_item = table.deepcopy(data.raw.item["crusher"])
 crusher_item.name="astra-simple-crusher"
 crusher_item.icons = {{icon = "__space-age__/graphics/icons/crusher.png", tint = {r=.27,g=.12}}}
 crusher_item.place_result = "astra-simple-crusher"
-
-
 
 local crusher_recipe = table.deepcopy(data.raw.recipe["crusher"])
 crusher_recipe.name = "astra-simple-crusher"
@@ -30,11 +29,13 @@ local collector_entity = table.deepcopy(data.raw["asteroid-collector"]["asteroid
 collector_entity.name="astra-simple-asteroid-collector"
 collector_entity.icons = {{icon = "__space-age__/graphics/icons/asteroid-collector.png", tint = {r=.27,g=.12}}}
 collector_entity.minable.results = {{type="item",name="astra-simple-asteroid-collector",amount=1}}
-collector_entity.arm_inventory_size = 3
+collector_entity.arm_inventory_size = 2
 collector_entity.inventory_size = 10
-collector_entity.collection_radius = 10
-collector_entity.arm_speed_base = 25
+collector_entity.collection_radius = 8
+collector_entity.arm_speed_base = .1
 collector_entity.arm_count_base = 1
+collector_entity.color = {r=.27,g=.12}
+
 
 local collector_recipe = table.deepcopy(data.raw.recipe["asteroid-collector"])
 collector_recipe.name = "astra-simple-asteroid-collector"
