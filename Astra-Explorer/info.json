@@ -6,10 +6,13 @@
     "author": "Aleoin",
     "homepage":"https://github.com/noyoki/Factorio-Astra-Explorer",
     "dependencies": [
-         "base >= 2.0.28",
-         "space-age >= 2.0.28",
-         "Astra-Asteroids >= 0.1.0",
-         "? any-planet-start"
+        "base >= 2.0.28",
+        "space-age >= 2.0.28",
+        "fluid-nutrients >= 1.0.4",
+        "atan-nuclear-science >= 0.3.3",
+        "? any-planet-start >= 1.1.12",
+        "? slp-dyson-sphere-reworked >= 1.0.2",
+        "Astra-Asteroids >= 0.1.0"
         ],
     "description": "Sets a space only start on a new asteroid field."
 }

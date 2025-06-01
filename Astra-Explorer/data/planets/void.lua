@@ -4,10 +4,9 @@ data:extend(
 {
     {
         type = "planet",
-        name = "the-void",
+        name = "astra-void",
         icon = "__Astra-Explorer__/graphics/icons/shattered-tanker.png",
         starmap_icon = "__Astra-Explorer__/graphics/icons/shattered-tanker.png",
-        starmap_icon_size = 512,
         gravity_pull = 0,
         distance = 9999,
         orientation = 0.172,

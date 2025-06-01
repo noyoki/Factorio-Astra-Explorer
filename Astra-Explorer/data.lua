@@ -1,9 +1,10 @@
 require("scripts.utils")
-require("data.asteroids.asteroid")
+require("data.Integrations.astra_asteroids")
 require("data.planets.shattered_tanker")
-require("data.spacestart")
+require("data.planets.vulcanus_asteroid_belt")
+require("data.Tech.space_start")
 require("data.planets.void")
-require("data.Tech.research_unlocks")
+
 
 data:extend({
     {

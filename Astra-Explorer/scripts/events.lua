@@ -15,9 +15,10 @@ local function StartGame()
     end
     
     local force = game.forces.player
+    force.technologies["advanced-asteroid-processing"].researched = true
     force.technologies["space-platform"].researched = true
     force.unlock_space_platforms()
-    force.unlock_space_location("shattered-tanker")
+    force.unlock_space_location("astra-shattered-tanker")
 
     force.lock_space_location("nauvis")
 
@@ -28,7 +29,7 @@ local function StartPlayer(player_index)
     local player = game.players[player_index]
     local playername = player.name
 
-    local platform = AstraFunctions.CreatePlatform("shattered-tanker")
+    local platform = AstraFunctions.CreatePlatform("astra-shattered-tanker")
     platform.name = playername.. "'s Remnant"
     storage.platform[playername] = platform
 

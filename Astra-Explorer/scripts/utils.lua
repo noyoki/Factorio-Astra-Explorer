@@ -9,7 +9,7 @@ AstraFunctions.Print = function(text)
 end
 
 AstraFunctions.CreatePlatform = function(location)
-    local platform = game.forces.player.create_space_platform { planet = "the-void", starter_pack = "space-platform-starter-pack" }
+    local platform = game.forces.player.create_space_platform { planet = "astra-void", starter_pack = "space-platform-starter-pack" }
     platform.apply_starter_pack()
     platform.hub.insert({ name = "crusher", count = 6 })
     platform.hub.insert({ name = "asteroid-collector", count = 6 })
@@ -35,41 +35,36 @@ AstraFunctions.CreatePlatform = function(location)
     return platform
 end
 
-AstraFunctions.TechGetPreReqs = function(tech_name)
-  if (data.raw.technology[tech_name]== nil) then return end
-	local reqs = {}
-	for _, tech in pairs(data.raw.technology) do
-		if tech.prerequisites then
-			for _, prereq in ipairs(tech.prerequisites) do
-				if prereq == tech_name then
-					table.insert(reqs, tech.name)
-					break
-				end
-			end
-		end
-	end
-	return reqs
-end
-
-
 AstraFunctions.TechRemovePreReq = function(tech, prereq)
-log("Removing prereq of " .. prereq .. " from " .. tech)
-  if (data.raw["technology"][tech] == nil) then return end
-   if (data.raw["technology"][tech].prerequisites == nil) then return end 
-  for i, v in ipairs(data.raw["technology"][tech].prerequisites ) do
-    if v == prereq then
-       table.remove(data.raw["technology"][tech].prerequisites , i)
+  if (data.raw["technology"][tech] == nil) then 
+    log("Failed to remove prereq "..prereq.." from "..tech.. " tech not found")
+  elseif (data.raw["technology"][prereq] == nil) then 
+    log("Failed to remove prereq "..prereq.." from "..tech.. " prereq not found")
+  else
+    log("Removing prereq of " .. prereq .. " from " .. tech)
+    if (data.raw["technology"][tech].prerequisites == nil) then return end 
+    for i, v in ipairs(data.raw["technology"][tech].prerequisites ) do
+      if v == prereq then
+        table.remove(data.raw["technology"][tech].prerequisites , i)
        return
+      end
     end
   end
 end
 
+
 AstraFunctions.TechAddPreReq = function(tech, prereq)
-log("Adding prereq of " .. prereq .. " to " .. tech)
-  if (data.raw["technology"][tech].prerequisites == nil) then
-    data.raw["technology"][tech].prerequisites= {}
+  if (data.raw["technology"][tech] == nil) then
+    log("Failed to add prereq "..prereq.." to "..tech.." tech not found")
+  elseif (data.raw["technology"][prereq] == nil) then
+    log("Failed to add prereq "..prereq.." to "..tech.." prereq not found")
+  else
+    log("Adding prereq of " .. prereq .. " to " .. tech)
+    if (data.raw["technology"][tech].prerequisites == nil) then
+      data.raw["technology"][tech].prerequisites= {}
+    end
+    table.insert(data.raw["technology"][tech].prerequisites, prereq)
   end
-  table.insert(data.raw["technology"][tech].prerequisites, prereq)
 end
 
 AstraFunctions.TechAddRecipe = function(tech, recipe)
@@ -77,24 +72,96 @@ AstraFunctions.TechAddRecipe = function(tech, recipe)
   table.insert(data.raw["technology"][tech].effects, {type = "unlock-recipe", recipe = recipe})
 end
 
+AstraFunctions.TechRemoveRecipe = function(tech,recipe)
+  for i, effect in pairs(data.raw.technology[tech].effects) do
+      if (effect.type == "unlock-recipe") then
+          if (effect.recipe == recipe) then
+              log("Removing recipe of " .. recipe .. " from " .. tech)
+              table.remove(data.raw.technology[tech].effects, i)
+              return
+          end
+      end
+  end
+  log("TechRemoveRecipe failed - recipe not found")
+end
+
+
 AstraFunctions.PurgeRecipe = function(recipe_name)
-log("Purging Recipe: "..recipe_name)
-    if (data.raw.recipe[recipe_name] == nil ) then return end
+
+  if (data.raw.recipe[recipe_name] == nil ) then
+    log("Failed to purge recipe: "..recipe_name)
+  else
+    log("Purging Recipe: "..recipe_name)
     data.raw.recipe[recipe_name].enabled = false
     data.raw.recipe[recipe_name].hidden = true
     data.raw.recipe[recipe_name].hidden_in_factoriopedia = true
 
+
     for _,tech in pairs(data.raw.technology) do 
-        if (data.raw.technology[tech.name].effects == nil ) then return end
-        for i, effect in pairs(data.raw.technology[tech.name].effects) do
-            if (effect.type == "unlock-recipe") then
-                if (effect.recipe == recipe_name) then
-                    log("Removing recipe of " .. recipe_name .. " from " .. tech.name)
-                    table.remove(data.raw.technology[tech.name].effects, i)       
-                end
-            end
+      if (data.raw.technology[tech.name].effects == nil ) then return end
+      for i, effect in pairs(data.raw.technology[tech.name].effects) do
+        if (effect.type == "unlock-recipe") then
+          if (effect.recipe == recipe_name) then
+              log("Removing recipe of " .. recipe_name .. " from " .. tech.name)
+              table.remove(data.raw.technology[tech.name].effects, i)       
+          end
         end
+      end
     end
+  end
 end
 
 
+
+local spawnpoint4 = {{probability = .4,speed=5,distance=0},{probability = .4,speed=5,distance=1}}
+local spawnpoint3 = {{probability = .3,speed=5,distance=0},{probability = .3,speed=5,distance=1}}
+local spawnpoint2 = {{probability = .2,speed=5,distance=0},{probability = .2,speed=5,distance=1}}
+local spawnpoint1 = {{probability = .1,speed=5,distance=0},{probability = .1,speed=5,distance=1}}
+local chunks = 
+{
+  {type = "asteroid-chunk",spawn_points=spawnpoint4,asteroid = "metallic-asteroid-chunk"},
+  {type = "asteroid-chunk",spawn_points=spawnpoint3,asteroid = "oxide-asteroid-chunk"},
+  {type = "asteroid-chunk",spawn_points=spawnpoint3,asteroid = "carbonic-asteroid-chunk"}
+}
+local smalls = 
+{
+  {type = "asteroid-chunk",spawn_points=spawnpoint3,asteroid = "metallic-asteroid-chunk"},
+  {type = "asteroid-chunk",spawn_points=spawnpoint2,asteroid = "oxide-asteroid-chunk"},
+  {type = "asteroid-chunk",spawn_points=spawnpoint2,asteroid = "carbonic-asteroid-chunk"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "small-metallic-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "small-oxide-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "small-carbonic-asteroid"}
+}
+local mediums = 
+{
+  {type = "asteroid-chunk",spawn_points=spawnpoint1,asteroid = "metallic-asteroid-chunk"},
+  {type = "asteroid-chunk",spawn_points=spawnpoint1,asteroid = "oxide-asteroid-chunk"},
+  {type = "asteroid-chunk",spawn_points=spawnpoint1,asteroid = "carbonic-asteroid-chunk"},
+  {type = "entity",spawn_points=spawnpoint2,asteroid = "small-metallic-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "small-oxide-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "small-carbonic-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "medium-metallic-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "medium-oxide-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "medium-carbonic-asteroid"}
+}
+local bigs = 
+{
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "small-metallic-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "small-oxide-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "small-carbonic-asteroid"},
+  {type = "entity",spawn_points=spawnpoint2,asteroid = "medium-metallic-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "medium-oxide-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "medium-carbonic-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "big-metallic-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "big-oxide-asteroid"},
+  {type = "entity",spawn_points=spawnpoint1,asteroid = "big-carbonic-asteroid"}
+}
+
+AstraFunctions.GetSpaceConnectionAsteroids = function(difficulty)
+  if (difficulty=="chunks") then return chunks
+  elseif (difficulty=="smalls") then return smalls
+  elseif (difficulty=="mediums") then return mediums
+  elseif (difficulty=="bigs") then return bigs
+  else return nil
+  end
+end
